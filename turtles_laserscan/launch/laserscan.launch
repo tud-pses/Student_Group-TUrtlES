@@ -1,0 +1,28 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+
+  <node pkg="nodelet" type="nodelet" name="LaserScan"
+    args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet nodelet_manager">
+
+    <remap from="image" to="/kinect_utilities/depth_image_filtered"/>
+  
+    <rosparam>
+      target_frame: base_link
+      transform_tolerance: 0.01
+      min_height: 0.0
+      max_height: 0.40
+      angle_min: -0.6108652382
+      angle_max: 0.6108652382
+      angle_increment: 0.0087 # M_PI/360.0
+      scan_time: 0.3333
+      range_min: 0.55
+      range_max: 12.0
+      use_inf: true
+      concurrency_level: 4
+   </rosparam>
+
+</node>
+
+
+</launch>
+

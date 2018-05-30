@@ -1,0 +1,40 @@
+<launch>
+        <!--
+                                       === TURTLES MOVE_BASE_TEB.LAUNCH ===
+        This launch files should be executed after the robot.launch and it starts move_base(planner),
+        map_server, amcl and the turtles_base_controller.
+       -->
+
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  	  	<rosparam file="$(find turtles_config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find turtles_config)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find turtles_config)/local_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find turtles_config)/global_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find turtles_config)/teb_local_planner_params.yaml" command="load" />
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+
+                <param name="clearing_rotation_allowed" value="false" /> 
+	</node>
+
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find turtles_launch)/maps/map.yaml"/>
+
+	
+	<node name="amcl" pkg="amcl" type="amcl">
+		<rosparam file="$(find turtles_config)/amcl_params.yaml" command="load" />
+			<param name="initial_pose_x" value="28.771" />
+			<param name="initial_pose_y" value="-6.186" />
+			<param name="initial_pose_a" value="-3.108" /> 
+	</node>
+	
+	<node name="turtles_base_controller" pkg="turtles_base_controller" type="turtles_base_controller">
+	</node>
+	
+        
+</launch>

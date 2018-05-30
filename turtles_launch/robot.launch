@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+        <!--
+                                       === TURTLES ROBOT.LAUNCH ===
+        This launch file should be executed after uc_bridge and it starts the kinect sensor,
+        kinect filter, laser scan, odometry and tf.
+        RViz can also be started aumatically with this launch file.
+        -->
+	
+        <!--<include file="$(find pses_ucbridge)/launch/uc_bridge.launch"/>
+            When executing the gyro_setup.sh script uc_bridge should be executed manually
+            throug the terminal before the robot.launch.
+        -->
+
+        <arg name="rviz" default="false"/>
+
+	<include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch"/>
+	<include file="$(find pses_kinect_utilities)/launch/kinect_filter.launch"/>
+	<include file="$(find turtles_laserscan)/launch/laserscan.launch"/>
+	<node name="odometry_node" pkg="pses_odometry" type="odometry_node" />
+	<node name="tf_broadcaster" pkg="turtles_robot_tf" type="tf_broadcaster" />
+
+        <group if="$(arg rviz)">
+                <node pkg="rviz" type="rviz" name="rviz" />
+        </group>
+	
+
+</launch>

@@ -1,0 +1,21 @@
+local_costmap:
+  global_frame: odom
+  robot_base_frame: /base_link
+  update_frequency: 5.0
+  publish_frequency: 20
+  static_map: false
+  rolling_window: true
+  origin_x: 0.0
+  origin_y: 0.0
+  width: 4.5
+  height: 4.5
+  resolution: 0.05
+
+ultra_sonic_layer:
+    topics: ['/uc_bridge/usf', '/uc_bridge/usr', '/uc_bridge/usl']
+    no_readings_timeout: 1.0
+
+plugins:
+  - {name: ultra_sonic_layer, type: "range_sensor_layer::RangeSensorLayer"}
+  - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+  - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
